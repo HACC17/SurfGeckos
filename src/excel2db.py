@@ -72,7 +72,7 @@ D4e = ['contaminant', 'freshwater_usepa_chronic', 'freshwater_usepa_acute', 'fre
 D4f = ['contaminant', 'criteria', 'basis', 'hi_doh_wqs', 'usepa_nwqc']
 D5 = ['contaminant', 'agriculturual_water_goals']
 E= ['other', 'contaminant', 'extra', 'koc', 'koc_for_leaching', 'h', 'daf', 'saturation_limit', 'concentration_close_drinking', 'concentration_far_drinking',  'concentration_close_not_drinking', 'concentration_far_not_drinking', 'leaching_close_drinking', 'leaching_far_drinking',  'leaching_close_not_drinking', 'leaching_far_not_drinking',]
-F2=['contaminant', 'final_unrestricted_action_level', 'final_commerical_action_level', 'raw_unrestricted_action_level', 'raw_commercial_action_level', 'soil_saturation_limit', 'vp', 'ort_ugm3', 'ort_ppmv',  'odor_index']
+F2=['contaminant', 'final_unrestricted_action_level', 'final_commercial_action_level', 'raw_unrestricted_action_level', 'raw_commercial_action_level', 'soil_saturation_limit', 'vp', 'ort_ugm3', 'ort_ppmv',  'odor_index']
 G1 = ['contaminant', 'eal', 'basis', 'solubility', 'taste_odor', 'odor_basis', 'upper_limit']
 I1 = ['contaminant', 'eal', 'basis', 'carcinogens', 'mutagens', 'noncarcinogens_final', 'noncarcinogens_hq', 'saturation']
 I2 = ['contaminant', 'eal', 'basis', 'carcinogens', 'noncarcinogens_final', 'noncarcinogens_hq', 'saturation']
@@ -367,7 +367,7 @@ class Loader:
 								self.collections[sheet],
 		   						columns[sheet])			
 			except:
-				logging.debug("ERROR")
+				logging.info("Giving up on sheet {}".format(sheet))
 	
 	
 
