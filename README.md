@@ -19,16 +19,19 @@ pip install -r requirements.txt
 cd djangosite
 # create local .sqlite db
 python manage.py migrate
+# create a superuser
+python manage.py createsuperuser
+# load a copy of our test database
+python manage.py loaddata db.json
 # start server
 python manage.py runserver
 ```
 
 HEER can modify data in the admin portion, 127.0.0.1:8000/admin
-Add a contaminant and a set of action level values via the admin tab to test the software.
 
 To view the user dialogue, go to 127.0.0.1:8000/
 
-You can create a site report with the settings of your action level and then print a pdf of the report from your browser.
+You can create a site report and then print a pdf of the report from your browser.
 
 Everything works with SQLite by default. To use MongoDB, it must be installed and running on your computer. To run from a command line:
 ```
