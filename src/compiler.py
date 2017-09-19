@@ -140,7 +140,11 @@ def mongo_lookup(value, db, collection, field):
 	except StopIteration:
 		logging.info("Cannot find {} in {}".format(value, collection))
 		return -1
-	return result[field]
+	try:
+		return result[field]
+	except KeyError:
+		print(value, collection, field)
+		sys.exit(1)
 
 def is_float(x):
 	try:
@@ -338,10 +342,11 @@ class SurferReport:
 	def _final_eal(self, lowest, background):
 		"""
 		"""
-		if background in ["?", "-"]:
+		try:
+
+			return max(float(background), float(lowest))
+		except (ValueError, TypeError):
 			return lowest
-		return max(float(background), float(lowest))
-			
 	
 	def _potential_hazard(self, key, input_data, eal):
 		"""
@@ -353,7 +358,7 @@ class SurferReport:
 				return "Yes"
 			else:
 				return "No"
-		except ValueError:
+		except (ValueError, TypeError):
 			return "-"
 
 	def _referenced_table(self, key, input_data, chemical_data):
@@ -419,14 +424,17 @@ IF(E28="YES",
 		input should be out_data["soil_hazards"]
 		returns key, eal
 		"""
-		return min(
-			(
-				(key, float(hazards[key]["action_level"]))
-				for key in keys
-				if is_float(hazards[key]["action_level"])
-			),
-			key=lambda __:__[1]
-		)
+		try:
+			return min(
+				(
+					(key, float(hazards[key]["action_level"]))
+					for key in keys
+					if is_float(hazards[key]["action_level"])
+				),
+				key=lambda __:__[1]
+			)
+		except ValueError:
+			return ('-', '-')
 
 	def _db(self, value, table, field):
 		return db_lookup(value, self.db, table, field, self.mongo)
@@ -443,7 +451,7 @@ if __name__ == '__main__':
 			"address":"123 Happy Place",
 			"site_id":"553423",
 			"timestamp":0
-		},
+	 	},
 		"contaminants":
 		[
 			{
@@ -459,5 +467,5 @@ if __name__ == '__main__':
 		],
 	}
 	
-	report = SurferReport(input_data, db_name="surfer", mongo=False)
+	report = SurferReport(input_data, db_name="surfer", mongo=True)
 	print(json.dumps(report.record, indent=4))
